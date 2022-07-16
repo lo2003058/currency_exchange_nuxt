@@ -31,9 +31,9 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: currency_exchangeeb_node
-          environment_name: Currencyexchangeebnode-env
-          version_label: "currency_exchange_deployment-${{ steps.format-time.outputs.replaced }}"
+          application_name: ce-node
+          environment_name: ce-node-env
+          version_label: "ce_deployment-${{ steps.format-time.outputs.replaced }}"
           region: ap-southeast-1
           deployment_package: deploy.zip
 
