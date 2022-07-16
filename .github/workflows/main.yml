@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Latest Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@master
 
       - name: Generate Deployment Package
         run: zip -r deploy.zip * -x "**node_modules**"
@@ -27,13 +27,13 @@ jobs:
           flags: 'g'
 
       - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v20
+        uses: einaregilsson/beanstalk-deploy@master
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: currency_exchange_eb
-          environment_name: Currencyexchangeeb-env
-          version_label: "currency_exchange_demo_deployment-${{ steps.format-time.outputs.replaced }}"
+          application_name: currency_exchangeeb_node
+          environment_name: Currencyexchangeebnode-env
+          version_label: "currency_exchange_deployment-${{ steps.format-time.outputs.replaced }}"
           region: ap-southeast-1
           deployment_package: deploy.zip
 
