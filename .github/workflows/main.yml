@@ -19,6 +19,7 @@ jobs:
 
       - name: create dotenv
         run: |
+          cd /app
           touch .env
           echo VUE_APP_NAME: "Currency Exchange" > .env
           echo FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/" > .env
