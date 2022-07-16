@@ -1,34 +1,25 @@
-name: Deployment From Github To AWS
+name: Docker Image CI
+
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  deploy:
+
+  build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@master
-
-      - name: Cache node_modules 📦
-        uses: actions/cache@v2
+      - uses: actions/checkout@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Installing NPM
-        run: npm install
-
-      - name: Building application
-        run: npm run build
-
-      - name: Generate deployment package
-        run: zip -r deploy.zip * .[^.]* -x "**node_modules**"
-
+          lfs: 'true'
+      - name: Build the Docker image
+        run: docker build -t currency_exchange_nuxt -f Dockerfile .
+      - name: Generate Deployment Package
+        run: zip -r deploy.zip *
       - name: Get timestamp
         uses: gerred/actions/current-time@master
         id: current-time
@@ -42,16 +33,13 @@ jobs:
           replace-with: '-'
           flags: 'g'
 
-      - name: Beanstalk Deploy for app
+      - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@master
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: ce-node
-          environment_name: ce-node-env
-          version_label: "ce_deployment-${{ steps.format-time.outputs.replaced }}"
+          application_name: ce-docker
+          environment_name: ce-docker-env
+          version_label: "ce_docker_deployment-${{ steps.format-time.outputs.replaced }}"
           region: ap-southeast-1
           deployment_package: deploy.zip
-
-      - name: Deployed!
-        run: echo app deployed to ELB
