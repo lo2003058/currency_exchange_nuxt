@@ -60,7 +60,6 @@ export default {
       this.tab = 0;
       this.$refs.latest.fromParent(value);
     },
-
     async fetchSymbols() {
       this.loading = true;
       this.$axios.setHeader('apikey', process.env.FOREIGN_EXCHANGE_API_KEY)
@@ -74,7 +73,6 @@ export default {
       } catch (e) {
         console.log(e.message);
       }
-
       this.loading = false;
     }
   }
