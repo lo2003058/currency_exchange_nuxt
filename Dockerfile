@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/nuxt-app
 WORKDIR /usr/src/nuxt-app
 
 #only for new m1 mac, because no python v2.x installed
-RUN apk add --no-cache python2 g++ make
+#RUN apk add --no-cache python2 g++ make
 
 # update and install dependency
 RUN apk update && apk upgrade

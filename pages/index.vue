@@ -8,10 +8,18 @@
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item>
-          <LatestExchangeComponent :headers="headers" :symbols-list="symbolsList"></LatestExchangeComponent>
+          <LatestExchangeComponent
+            :headers="headers"
+            :symbols-list="symbolsList"
+            ref="latest"
+          ></LatestExchangeComponent>
         </v-tab-item>
         <v-tab-item>
-          <HistoryExchangeRateComponent :headers="headers" :symbols-list="symbolsList"></HistoryExchangeRateComponent>
+          <HistoryExchangeRateComponent
+            :headers="headers"
+            :symbols-list="symbolsList"
+            @findLatest="callChildFetch"
+          ></HistoryExchangeRateComponent>
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -48,10 +56,14 @@ export default {
     this.fetchSymbols();
   },
   methods: {
+    callChildFetch(value) {
+      this.tab = 0;
+      this.$refs.latest.fromParent(value);
+    },
+
     async fetchSymbols() {
       this.loading = true;
       this.$axios.setHeader('apikey', process.env.FOREIGN_EXCHANGE_API_KEY)
-
       try {
         const tempSymbols = await this.$axios.$get(process.env.FOREIGN_EXCHANGE_API_URL + "symbols");
         const tempSymbolsList = [];

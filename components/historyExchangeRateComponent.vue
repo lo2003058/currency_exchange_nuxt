@@ -91,6 +91,11 @@
             :items-per-page="10"
             class="elevation-1"
           >
+            <template v-slot:item.symbol="{ item }">
+              <v-chip @click="findLatest(item.symbol)">
+                {{ item.symbol }}
+              </v-chip>
+            </template>
           </v-data-table>
         </div>
       </div>
@@ -124,6 +129,10 @@ export default {
     }
   },
   methods: {
+    findLatest(base) {
+      this.$emit('findLatest', base);
+    },
+
     getHistoryExchangeByDate(date) {
       const tempHistoryItems = [];
       if (this.rawHistoryExchange) {
@@ -136,17 +145,33 @@ export default {
       }
       this.items = tempHistoryItems;
     },
-    async fetchCurrency(symbols, start_at = null, end_at = null) {
+
+    validator(symbols, start_at, end_at) {
+      if (start_at && end_at) {
+        if (moment(start_at).isSameOrBefore(end_at)) {
+          return !!symbols;
+        } else {
+          this.start_at = null;
+          this.end_at = null;
+          alert("Start day not greater than end day!");
+        }
+      }
+      return false;
+    },
+
+    async fetchCurrency(symbols, start_at, end_at) {
       this.loading = true;
       this.$axios.setHeader('apikey', process.env.FOREIGN_EXCHANGE_API_KEY)
       try {
-        const tempHistoryDateLists = [];
-        const tempRawHistoryExchange = await this.$axios.$get(process.env.FOREIGN_EXCHANGE_API_URL + "timeseries?base=" + symbols + "&start_date=" + start_at + "&end_date=" + end_at);
-        this.rawHistoryExchange = tempRawHistoryExchange;
-        _.forEach(tempRawHistoryExchange.rates, function (value, key) {
-          tempHistoryDateLists.push(key);
-        });
-        this.dateLists = tempHistoryDateLists;
+        if (this.validator(symbols, start_at, end_at)) {
+          const tempHistoryDateLists = [];
+          const tempRawHistoryExchange = await this.$axios.$get(process.env.FOREIGN_EXCHANGE_API_URL + "timeseries?base=" + symbols + "&start_date=" + start_at + "&end_date=" + end_at);
+          this.rawHistoryExchange = tempRawHistoryExchange;
+          _.forEach(tempRawHistoryExchange.rates, function (value, key) {
+            tempHistoryDateLists.push(key);
+          });
+          this.dateLists = tempHistoryDateLists;
+        }
       } catch (e) {
         console.log(e.message);
       }

@@ -45,6 +45,11 @@ export default {
     }
   },
   methods: {
+    fromParent(value) {
+      this.base = value;
+      this.fetchCurrency(value);
+    },
+
     async fetchCurrency(symbols) {
       this.loading = true;
       this.$axios.setHeader('apikey', process.env.FOREIGN_EXCHANGE_API_KEY)
