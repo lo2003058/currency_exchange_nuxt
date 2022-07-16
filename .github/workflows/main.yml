@@ -17,14 +17,20 @@ jobs:
         with:
           lfs: 'true'
 
-      - name: create dotenv
-        run: |
-          cd /app
-          touch .env
-          echo VUE_APP_NAME: "Currency Exchange" > .env
-          echo FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/" > .env
-          echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > .env
-          cat .env
+      - name: Create .env file
+        uses: ozaytsev86/create-env-file@v1
+        with:
+          ENV_VUE_APP_NAME: "Currency Exchange"
+          ENV_FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/"
+          ENV_FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }}
+
+      #      - name: create dotenv
+      #        run: |
+      #          touch .env
+      #          echo VUE_APP_NAME: "Currency Exchange" > .env
+      #          echo FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/" > .env
+      #          echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > .env
+      #          cat .env
 
       - name: Build the Docker image
         run: docker build -t currency_exchange_nuxt -f Dockerfile .
