@@ -57,7 +57,7 @@ export default {
     }
   },
   mounted() {
-    // this.fetchSymbols();
+    this.fetchSymbols();
   },
   methods: {
     callChildFetch(value) {
