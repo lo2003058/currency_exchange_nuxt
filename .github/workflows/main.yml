@@ -10,15 +10,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: confirm dotenv has it been created
-        run: ls -al
-
       - uses: actions/checkout@v2
         with:
           lfs: 'true'
 
       - name: Build the Docker image
         run: docker build -t currency_exchange_nuxt -f Dockerfile .
+
+      - name: confirm docker image has it been created
+        run: ls -al
 
       - name: create dotenv
         run: |
@@ -27,6 +27,9 @@ jobs:
           echo FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/" > /app/.env
           echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > /app/.env
           cat /app/.env
+
+      - name: confirm dotenv image has it been created
+        run: ls -al
 
       - name: Generate Deployment Package
         run: zip -r deploy.zip *
