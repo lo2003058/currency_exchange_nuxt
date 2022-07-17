@@ -18,8 +18,8 @@ jobs:
           echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > .env
           cat .env
 
-      - name: confirm dotenv has it been created
-        run: ls -al
+#      - name: confirm dotenv has it been created
+#        run: ls -al
 
       - uses: actions/checkout@v2
         with:

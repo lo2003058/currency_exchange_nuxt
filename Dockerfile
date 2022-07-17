@@ -1,6 +1,7 @@
 FROM node:14.18.3-alpine
 
 RUN mkdir -p /app
+RUN mv .env /app
 COPY . /app
 WORKDIR /app
 
