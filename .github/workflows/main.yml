@@ -29,7 +29,7 @@ jobs:
         run: ls -al
 
       - name: Generate Deployment Package
-        run: zip -r -S deploy.zip *
+        run: zip -rf deploy.zip *
 
       - name: Get timestamp
         uses: gerred/actions/current-time@master
