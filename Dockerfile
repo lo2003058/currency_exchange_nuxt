@@ -4,7 +4,7 @@ RUN mkdir -p /app
 COPY . /app
 WORKDIR /app
 
-#only for new m1 mac, because no python v2.x installed
+#only for new m1 mac, because no python v2.x installed(local)
 #RUN apk add --no-cache python2 g++ make
 
 # update and install dependency

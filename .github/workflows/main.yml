@@ -7,29 +7,23 @@ on:
     branches: [ main ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
+      - name: create dotenv
+        run: |
+          touch .env
+          echo VUE_APP_NAME: "Currency Exchange" > .env
+          echo FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/" > .env
+          echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > .env
+          cat .env
+
+      - name: confirm dotenv has it been created
+        run: ls -al
+
       - uses: actions/checkout@v2
         with:
           lfs: 'true'
-
-#      - name: create dotenv
-#        run: |
-#          touch .env
-#          echo VUE_APP_NAME: "Currency Exchange" > .env
-#          echo FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/" > .env
-#          echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > .env
-#          cat .env
-
-      - uses: iamsauravsharma/create-dotenv@v1.2.1
-        env: # env available for only this steps
-          VUE_APP_NAME: "Currency Exchange"
-          FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/"
-          FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }}
 
       - name: Build the Docker image
         run: docker build -t currency_exchange_nuxt -f Dockerfile .
