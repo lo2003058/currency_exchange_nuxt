@@ -12,13 +12,11 @@ jobs:
     steps:
       - name: create dotenv
         run: |
-          mkdir -p /app
           touch .env
           echo VUE_APP_NAME: "Currency Exchange" > .env
           echo FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/" > .env
           echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > .env
           cat .env
-          mv .env /app
 
       - name: confirm dotenv has it been created
         run: ls -al
