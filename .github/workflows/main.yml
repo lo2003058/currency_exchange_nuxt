@@ -12,14 +12,14 @@ jobs:
     steps:
       - name: create dotenv
         run: |
-          touch .env
-          echo VUE_APP_NAME: "Currency Exchange" > .env
-          echo FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/" > .env
-          echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > .env
-          cat .env
+          touch /app/.env
+          echo VUE_APP_NAME: "Currency Exchange" > /app/.env
+          echo FOREIGN_EXCHANGE_API_URL: "https://api.apilayer.com/exchangerates_data/" > /app/.env
+          echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > /app/.env
+          cat /app/.env
 
-#      - name: confirm dotenv has it been created
-#        run: ls -al
+      - name: confirm dotenv has it been created
+        run: ls -al
 
       - uses: actions/checkout@v2
         with:
