@@ -1,10 +1,12 @@
 FROM node:14.18.3-alpine
 
+WORKDIR .
+RUN pwd && ls -l
+
 RUN mkdir -p /app
 COPY . /app
 WORKDIR /app
 
-RUN pwd && ls -l
 COPY ../.env /app
 
 #only for new m1 mac, because no python v2.x installed(local)
