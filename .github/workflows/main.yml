@@ -17,7 +17,7 @@ jobs:
       - name: Build the Docker image
         run: docker build -t currency_exchange_nuxt -f Dockerfile .
 
-      - name: create dotenv
+      - name: Create dotenv
         run: |
           touch .env
           echo VUE_APP_NAME: "Currency Exchange" > .env
@@ -25,8 +25,11 @@ jobs:
           echo FOREIGN_EXCHANGE_API_KEY: ${{ secrets.FOREIGN_EXCHANGE_API_KEY }} > .env
           cat .env
 
+      - name: confirm dotenv has it been created
+        run: ls -al
+
       - name: Generate Deployment Package
-        run: zip -r deploy.zip *
+        run: zip -r -S deploy.zip *
 
       - name: Get timestamp
         uses: gerred/actions/current-time@master
