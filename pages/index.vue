@@ -1,7 +1,11 @@
 <template>
   <v-container>
     <v-card>
-      <v-tabs v-model="tab" grow>
+      <v-tabs
+        v-model="tab"
+        grow
+        centered
+      >
         <v-tab v-for="(title,index) in titleLists" :key="index">
           {{ title }}
         </v-tab>
@@ -33,7 +37,7 @@ export default {
   name: 'index',
   data() {
     return {
-      titleLists: ["Latest Exchange", "History Exchange Rate"],
+      titleLists: ["Latest", "History"],
       headers: [
         {
           text: 'Symbol',
@@ -53,7 +57,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchSymbols();
+    // this.fetchSymbols();
   },
   methods: {
     callChildFetch(value) {

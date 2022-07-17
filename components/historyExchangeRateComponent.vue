@@ -3,7 +3,7 @@
     <v-card-title>History Exchange Rate</v-card-title>
     <v-card-text>
       <v-row>
-        <v-col>
+        <v-col cols="12" md="4" xs="12">
           <v-menu
             v-model="menu"
             :close-on-content-click="false"
@@ -32,7 +32,7 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col>
+        <v-col cols="12" md="4" xs="12">
           <v-menu
             v-model="menu2"
             :close-on-content-click="false"
@@ -61,7 +61,7 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col>
+        <v-col cols="12" md="4" xs="12">
           <v-autocomplete
             v-model="base"
             :items="symbolsList"
